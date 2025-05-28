@@ -43,7 +43,7 @@ namespace Orleans.Streams.Kafka.Core
 			TopicPartitionOffset offset
 		)
 		{
-			Events = events ?? throw new ArgumentNullException(nameof(events), "Message contains no events.");
+			Events = events != null ? new List<object>(events) : throw new ArgumentNullException(nameof(events), "Message contains no events.");
 
 			StreamId = streamId;
 			SequenceToken = streamSequenceToken;
