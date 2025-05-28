@@ -15,13 +15,7 @@
   </ItemGroup>
 
   <!--packages-->
-  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+  <ItemGroup >
     <PackageReference Include="Orleans.Streams.Utils" Version="$(StreamUtilsVersion)"/>
   </ItemGroup>
-
-  <!--libraries-->
-  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-    <ProjectReference Include="..\..\Orleans.Streams.Utils\Orleans.Streams.Utils\Orleans.Streams.Utils.csproj"/>
-  </ItemGroup>
-
 </Project>
