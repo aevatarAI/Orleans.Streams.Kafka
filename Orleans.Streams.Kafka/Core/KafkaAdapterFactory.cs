@@ -20,7 +20,7 @@ namespace Orleans.Streams.Kafka.Core
 	{
 		private readonly string _name;
 		private readonly KafkaStreamOptions _options;
-		private readonly OrleansJsonSerializer _serializationManager;
+		private readonly Orleans.Serialization.Serializer _serializationManager;
 		private readonly ILoggerFactory _loggerFactory;
 		private readonly IGrainFactory _grainFactory;
 		private readonly IExternalStreamDeserializer _externalDeserializer;
@@ -35,7 +35,7 @@ namespace Orleans.Streams.Kafka.Core
 			string name,
 			KafkaStreamOptions options,
 			SimpleQueueCacheOptions cacheOptions,
-			OrleansJsonSerializer serializationManager,
+			Orleans.Serialization.Serializer serializationManager,
 			ILoggerFactory loggerFactory,
 			IGrainFactory grainFactory,
 			IServiceProvider services
@@ -90,7 +90,7 @@ namespace Orleans.Streams.Kafka.Core
 		{
 			var streamsConfig = services.GetOptionsByName<KafkaStreamOptions>(name);
 			var cacheOptions = services.GetOptionsByName<SimpleQueueCacheOptions>(name);
-			var serializer = services.GetRequiredService<OrleansJsonSerializer>();
+			var serializer = services.GetRequiredService<Orleans.Serialization.Serializer>();
 			var logger = services.GetRequiredService<ILoggerFactory>();
 			var grainFactory = services.GetRequiredService<IGrainFactory>();
 

@@ -3,6 +3,7 @@ using Orleans.Providers.Streams.Common;
 using Orleans.Runtime;
 using Orleans.Streams.Kafka.Core;
 using Orleans.Streams.Utils;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
@@ -38,10 +39,10 @@ namespace Orleans.Streams.Kafka.Consumer
 				);
 			}
 
+			// Stage 1: Direct binary deserialization (Simple implementation)
 			var serializationManager = serializationContext.SerializationManager;
-			var serializedString = Encoding.UTF8.GetString(result.Message.Value);
-			var batchContainer =
-				(KafkaBatchContainer)serializationManager.Deserialize(typeof(KafkaBatchContainer), serializedString);
+			var binaryData = new BinaryData(result.Message.Value);
+			var batchContainer = serializationManager.Deserialize<KafkaBatchContainer>(binaryData.ToMemory());
 
 			batchContainer.SequenceToken ??= sequence;
 			batchContainer.TopicPartitionOffSet = result.TopicPartitionOffset;
