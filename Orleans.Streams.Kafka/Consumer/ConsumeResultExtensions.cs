@@ -41,8 +41,7 @@ namespace Orleans.Streams.Kafka.Consumer
 
 			// Stage 1: Direct binary deserialization (Simple implementation)
 			var serializationManager = serializationContext.SerializationManager;
-			var binaryData = new BinaryData(result.Message.Value);
-			var batchContainer = serializationManager.Deserialize<KafkaBatchContainer>(binaryData.ToMemory());
+			var batchContainer = serializationManager.Deserialize<KafkaBatchContainer>(new ReadOnlyMemory<byte>(result.Message.Value));
 
 			batchContainer.SequenceToken ??= sequence;
 			batchContainer.TopicPartitionOffSet = result.TopicPartitionOffset;

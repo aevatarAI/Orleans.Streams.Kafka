@@ -18,7 +18,7 @@ namespace Orleans.Streams.Kafka.Serialization
 		{
 			var buffer = new ArrayBufferWriter<byte>();
 			_serializer.Serialize(data, buffer);
-			return buffer.WrittenMemory.ToArray();
+			return buffer.WrittenSpan.ToArray();
 		}
 	}
 }
