@@ -10,8 +10,10 @@ namespace Orleans.Streams.Kafka.Core
 	[GenerateSerializer]
 	public class KafkaBatchContainer : IBatchContainer, IComparable<KafkaBatchContainer>
 	{
+		[NonSerialized]
 		private readonly Dictionary<string, object> _requestContext;
 
+		[NonSerialized]
 		internal TopicPartitionOffset TopicPartitionOffSet;
 
 		[Id(0)]
