@@ -33,7 +33,7 @@ jobs:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-${{ env.cache-name }}
       - name: Restore dependencies
-        run: dotnet restore ${{ matrix.servicename }}/${{ matrix.servicename }}.csproj
+        run: dotnet restore ${{ matrix.servicename }}/${{ matrix.servicename }}.csproj --configuration Release
       - name: Get the version from git tags
         id: get_version
         run: |
