@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Confluent.Kafka;
 
 namespace Orleans.Streams.Kafka.Config
 {
@@ -23,6 +24,60 @@ namespace Orleans.Streams.Kafka.Config
 		public TimeSpan PollBufferTimeout { get; set; } = TimeSpan.FromMilliseconds(500);
 		public bool MessageTrackingEnabled { get; set; }
 		public bool ImportRequestContext { get; set; } = false;
+
+		// ========== Producer Performance Configuration (Added by Aevatar) ==========
+		
+		/// <summary>
+		/// Kafka Producer acknowledgment mode. 
+		/// None = fire-and-forget (fastest, may lose messages),
+		/// Leader = wait for leader ack (balanced, recommended for production),
+		/// All = wait for all replicas (slowest, most reliable)
+		/// Default: null (uses Confluent.Kafka default, which is All)
+		/// </summary>
+		public Acks? ProducerAcks { get; set; }
+
+		/// <summary>
+		/// Kafka Producer linger time in milliseconds.
+		/// Higher values improve batching but increase latency.
+		/// Default: null (uses Confluent.Kafka default, which is 0)
+		/// Recommended: 10-50ms for balanced performance
+		/// </summary>
+		public int? ProducerLingerMs { get; set; }
+
+		/// <summary>
+		/// Kafka Producer batch size in bytes.
+		/// Default: null (uses Confluent.Kafka default, which is 16384 / 16KB)
+		/// Recommended: 16384-32768 for most scenarios
+		/// </summary>
+		public int? ProducerBatchSize { get; set; }
+
+		/// <summary>
+		/// Kafka Producer compression type.
+		/// None, Gzip, Snappy, Lz4, Zstd
+		/// Default: null (uses Confluent.Kafka default, which is None)
+		/// Recommended: Lz4 for balanced compression and speed
+		/// </summary>
+		public CompressionType? ProducerCompressionType { get; set; }
+
+		/// <summary>
+		/// Maximum number of in-flight requests per connection.
+		/// Higher values improve throughput but may cause reordering if retries are enabled.
+		/// Default: null (uses Confluent.Kafka default, which is 5)
+		/// </summary>
+		public int? ProducerMaxInFlight { get; set; }
+
+		/// <summary>
+		/// Number of retries for transient errors.
+		/// Default: null (uses Confluent.Kafka default, which is 2)
+		/// </summary>
+		public int? ProducerRetries { get; set; }
+
+		/// <summary>
+		/// Enable idempotent producer (exactly-once semantics).
+		/// Requires acks=all and retries > 0.
+		/// Default: null (uses Confluent.Kafka default, which is false)
+		/// </summary>
+		public bool? ProducerEnableIdempotence { get; set; }
 
 		/// <summary>
 		/// Add a new internal topic.
